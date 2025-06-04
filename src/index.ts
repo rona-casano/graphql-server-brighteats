@@ -1,61 +1,94 @@
-// server.js
+// server.ts
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { v4 as uuidv4 } from 'uuid';
 
+// Define GraphQL schema
 const typeDefs = `#graphql
   type User {
-    id: ID!
+    email: String!
     name: String!
     age: Int
-    role: String
-    isActive: Boolean
+    gender: String
+    interest: String!
+  }
+
+  input UserInput {
+    email: String!
+    name: String!
+    age: Int
+    gender: String
+    interest: String!
   }
 
   input UserFilterInput {
     name: String
-    age: Int
-    role: String
-    isActive: Boolean
   }
 
   type Query {
     users(filter: UserFilterInput): [User!]!
   }
+
+  type Mutation {
+    register(input: UserInput!): User!
+  }
 `;
 
-const users = [
-  { id: '1', name: 'Alice', age: 30, role: 'admin', isActive: true },
-  { id: '2', name: 'Bob', age: 25, role: 'user', isActive: false },
-  { id: '3', name: 'Carol', age: 30, role: 'user', isActive: true },
-];
+// Define TypeScript types
+interface User {
+  email: string;
+  name: string;
+  age?: number;
+  gender?: string;
+  interest: string;
+}
 
-function applyFilters(data, filters = {}) {
+interface UserInput extends User {}
+
+interface UserFilterInput {
+  name?: string;
+}
+
+// In-memory storage
+const users: User[] = [];
+
+// Filter function with types
+function applyFilters(data: User[], filters: UserFilterInput = {}): User[] {
   return data.filter(item =>
     Object.entries(filters).every(([key, value]) =>
-      value === undefined ? true : item[key] === value
+      value === undefined ? true : item[key as keyof User] === value
     )
   );
 }
 
+// Resolvers
 const resolvers = {
   Query: {
-    users: (_, { filter }) => {
-      const result = applyFilters(users, filter);
-      console.log("Filtered users:", result); // 👈 Output to terminal
-      return result;
+    users: (_: unknown, { filter }: { filter?: UserFilterInput }): User[] =>
+      applyFilters(users, filter),
+  },
+  Mutation: {
+    register: (_: unknown, { input }: { input: UserInput }): User => {
+      const newUser: User = { ...input };
+      users.push(newUser);
+      return newUser;
     },
   },
 };
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+// Export server for testing
+export const createApolloServer = () =>
+  new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
-startStandaloneServer(server, {
-  listen: { port: 4000 },
-}).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
-// This code sets up a simple Apollo Server with a GraphQL schema that includes a User type and a query to fetch users with optional filters.
-// The applyFilters function is used to filter the users based on the provided input.
+// Start server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  const server = createApolloServer();
+  startStandaloneServer(server, {
+    listen: { port: 4000 },
+  }).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
+  });
+}
