@@ -4,6 +4,14 @@ import { createApolloServer } from '../src/index';
 describe('API tests', () => {
   let server: ApolloServer<BaseContext>;
 
+  const TEST_LEAD = {
+    email: 'lead@test.com',
+    name: 'Jane Lead',
+    age: 28,
+    gender: 'female',
+    interest: 'GraphQL',
+  };
+
   beforeAll(async () => {
     server = createApolloServer();
     await server.start();
@@ -58,4 +66,5 @@ describe('API tests', () => {
       throw new Error('Expected single response but got incremental.');
     }
   });
+
 });
