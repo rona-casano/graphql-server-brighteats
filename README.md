@@ -1,2 +1,121 @@
-# graphql-server-brighteats
-This project is a lead capture system built for Brighte Eats, a new product by Brighte. The system enables users to express their interest in a variety of services and allows Brighte to view submitted leads via a simple, queryable dashboard API.
+# Lead Management GraphQL API
+
+A simple GraphQL server for managing leads — register leads and query them easily.
+
+---
+
+## Getting Started
+
+### 1. Start the Server
+
+**Recommended: Using GitHub Codespaces**
+
+- Open this repository in [GitHub Codespaces](https://github.com/features/codespaces).
+- Once the Codespace is ready, open the integrated terminal.
+- Run:
+
+  ```bash
+  npm start
+Codespaces will forward port 4000 automatically.
+
+Open the forwarded port URL in your browser to access the GraphQL playground.
+
+Or, run locally
+
+Clone the repo and run:
+
+bash
+Copy
+Edit
+npm install
+npm start
+Open your browser and navigate to: http://localhost:4000
+
+2. Try Out These GraphQL Operations
+Feel free to edit the input values in mutations to register your own leads.
+
+Register Leads (Mutations)
+graphql
+Copy
+Edit
+mutation {
+  register(input: {
+    email: "Ron@example.com",
+    name: "Ron",
+    age: 33,
+    gender: "Female",
+    interest: "Pick-Up"
+  }) {
+    email
+    name
+    age
+    gender
+    interest
+  }
+}
+
+mutation {
+  register(input: {
+    email: "yenny@example.com",
+    name: "Yenny",
+    age: 32,
+    gender: "Female",
+    interest: "Delivery"
+  }) {
+    email
+    name
+    age
+    gender
+    interest
+  }
+}
+Query All Leads
+graphql
+Copy
+Edit
+query {
+  users {
+    name
+    email
+    age
+    gender
+    interest
+  }
+}
+Query Specific Lead by Name
+Change the name value to filter by a specific lead's name.
+
+graphql
+Copy
+Edit
+query {
+  users(filter: { name: "Ron" }) {
+    name
+    email
+    age
+    gender
+    interest
+  }
+}
+3. Stop the Server
+Press Ctrl + C in your terminal.
+
+4. Run Tests
+Make sure your server is stopped, then run:
+
+bash
+Copy
+Edit
+npm test
+Notes
+This project is designed to work smoothly in GitHub Codespaces but runs perfectly on your local machine as well.
+
+The GraphQL playground on port 4000 is your gateway to exploring and testing the API interactively.
+
+Happy coding! 🚀
+
+vbnet
+Copy
+Edit
+
+If you want, I can also help you with a badge or instructions for deploying, just let me know!
