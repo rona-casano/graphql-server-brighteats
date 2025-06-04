@@ -36,11 +36,26 @@ describe('API tests', () => {
       },
     };
 
-    const res = await server.executeOperation({ query: REGISTER_MUTATION, variables });
+    const res = await server.executeOperation({
+      query: REGISTER_MUTATION,
+      variables,
+    });
 
-    console.dir(res, { depth: null }); // Debug response
+    if (res.body.kind === 'single') {
+      const resultData = res.body.singleResult.data as {
+        register: {
+          email: string;
+          name: string;
+          age: number;
+          gender: string;
+          interest: string;
+        };
+      };
 
-    // expect(res.errors).toBeUndefined();
-    // expect(res.data?.register.email).toBe('test@example.com');
+      expect(res.body.singleResult.errors).toBeUndefined();
+      expect(resultData.register.email).toBe('test@example.com');
+    } else {
+      throw new Error('Expected single response but got incremental.');
+    }
   });
 });

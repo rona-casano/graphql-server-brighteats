@@ -1,6 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createApolloServer = void 0;
 // server.ts
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
+const server_1 = require("@apollo/server");
+const standalone_1 = require("@apollo/server/standalone");
 // Define GraphQL schema
 const typeDefs = `#graphql
   type User {
@@ -51,14 +54,15 @@ const resolvers = {
     },
 };
 // Export server for testing
-export const createApolloServer = () => new ApolloServer({
+const createApolloServer = () => new server_1.ApolloServer({
     typeDefs,
     resolvers,
 });
+exports.createApolloServer = createApolloServer;
 // Start server if not in test mode
 if (process.env.NODE_ENV !== 'test') {
-    const server = createApolloServer();
-    startStandaloneServer(server, {
+    const server = (0, exports.createApolloServer)();
+    (0, standalone_1.startStandaloneServer)(server, {
         listen: { port: 4000 },
     }).then(({ url }) => {
         console.log(`🚀 Server ready at ${url}`);
