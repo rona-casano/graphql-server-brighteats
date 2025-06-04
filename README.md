@@ -112,7 +112,3 @@ This project is designed to work smoothly in GitHub Codespaces but runs perfectl
 The GraphQL playground on port 4000 is your gateway to exploring and testing the API interactively.
 
 Happy coding! 🚀
-
- ```vbnet
-If you want, I can also help you with a badge or instructions for deploying, just let me know!
- ```
