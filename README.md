@@ -16,6 +16,7 @@ A simple GraphQL server for managing leads — register leads and query them eas
 
   ```bash
   npm start
+   ```
 Codespaces will forward port 4000 automatically.
 
 Open the forwarded port URL in your browser to access the GraphQL playground.
@@ -23,21 +24,18 @@ Open the forwarded port URL in your browser to access the GraphQL playground.
 Or, run locally
 
 Clone the repo and run:
+  ```bash
+  npm install
+  npm start
+   ```
 
-bash
-Copy
-Edit
-npm install
-npm start
 Open your browser and navigate to: http://localhost:4000
 
 2. Try Out These GraphQL Operations
 Feel free to edit the input values in mutations to register your own leads.
 
-Register Leads (Mutations)
-graphql
-Copy
-Edit
+Register Leads (Mutations):
+ ```bash
 mutation {
   register(input: {
     email: "Ron@example.com",
@@ -54,6 +52,7 @@ mutation {
   }
 }
 
+
 mutation {
   register(input: {
     email: "yenny@example.com",
@@ -69,10 +68,10 @@ mutation {
     interest
   }
 }
-Query All Leads
-graphql
-Copy
-Edit
+ ```
+
+Select All Lead (Query):
+ ```bash
 query {
   users {
     name
@@ -82,12 +81,11 @@ query {
     interest
   }
 }
-Query Specific Lead by Name
-Change the name value to filter by a specific lead's name.
+ ```
 
-graphql
-Copy
-Edit
+Select Lead (Query):
+
+ ```bash
 query {
   users(filter: { name: "Ron" }) {
     name
@@ -97,16 +95,17 @@ query {
     interest
   }
 }
+```
+
 3. Stop the Server
 Press Ctrl + C in your terminal.
 
-4. Run Tests
+5. Run Tests
 Make sure your server is stopped, then run:
-
-bash
-Copy
-Edit
+ ```bash
 npm test
+ ```
+
 Notes
 This project is designed to work smoothly in GitHub Codespaces but runs perfectly on your local machine as well.
 
@@ -114,8 +113,6 @@ The GraphQL playground on port 4000 is your gateway to exploring and testing the
 
 Happy coding! 🚀
 
-vbnet
-Copy
-Edit
-
+ ```vbnet
 If you want, I can also help you with a badge or instructions for deploying, just let me know!
+ ```
